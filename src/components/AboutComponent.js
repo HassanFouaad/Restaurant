@@ -6,34 +6,37 @@ import {
   CardBody,
   CardHeader,
   Media,
-
 } from "reactstrap";
 import { Link } from "react-router-dom";
-
+import { baseURL } from "../shared/baseURL";
+import { Fade, Stagger, FadeTransform } from "react-animation-components";
 function RenderLeader({ leader }) {
   return (
-    <React.Fragment>
-      <Media className="mb-5">
-        <Media left middle>
-          <Media object src={leader.image}></Media>
-        </Media>
-        <Media body className="ml-5">
-          <Media heading style={{ color: "#512DA8" }}>
-            {leader.name}
-          </Media>
-          <Media className="mb-4" style={{ color: "#9575CD" }}>
-            {leader.designation}
-          </Media>
-          <p>{leader.description}</p>
-        </Media>
+    <Media className="mb-5">
+      <Media left middle>
+        <Media object src={baseURL + leader.image}></Media>
       </Media>
-      <hr></hr>
-    </React.Fragment>
+      <Media body className="ml-5">
+        <Media heading style={{ color: "#512DA8" }}>
+          {leader.name}
+        </Media>
+        <Media className="mb-4" style={{ color: "#9575CD" }}>
+          {leader.designation}
+        </Media>
+        <p>{leader.description}</p>
+      </Media>
+    </Media>
   );
 }
 function About(props) {
   const leaders = props.leaders.map((leader) => {
-    return <RenderLeader leader={leader} key={leader.id}></RenderLeader>;
+    return (
+      <Fade in>
+        <li>
+          <RenderLeader leader={leader} key={leader}></RenderLeader>
+        </li>
+      </Fade>
+    );
   });
 
   return (
@@ -112,7 +115,9 @@ function About(props) {
           <h2>Corporate Leadership</h2>
         </div>
         <div className="col-12 mt-5">
-          <Media list>{leaders}</Media>
+          <ul className="list-unstyled">
+            <Stagger in>{leaders}</Stagger>
+          </ul>
         </div>
       </div>
     </div>

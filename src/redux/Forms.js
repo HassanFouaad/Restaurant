@@ -1,9 +1,9 @@
 export const InitialFeedback = {
-  firstName: '',
-  lastName: '',
-  telNum: '',
+  firstname: '',
+  lastname: '',
+  telnum: '',
   email: '',
   agree: false,
-  contactType: 'Tel.',
-  message: ''
+  contactType: "email",
+  message: '',
 };

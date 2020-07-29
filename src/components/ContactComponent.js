@@ -6,15 +6,24 @@ const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
 const minLength = (len) => (val) => val && val.length >= len;
 const isNumber = (val) => !isNaN(Number(val));
-const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9]+\.[A-Z]{2,4}$/i.test(val);
+const validemail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9]+\.[A-Z]{2,4}$/i.test(val);
 export default class Contact extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit(values) {
-    console.log(values);
+    console.log(JSON.stringify(values));
     this.props.resetFeedbackForm();
+    this.props.postFeedback(
+      this.props.dishId,
+      values.firstname,
+      values.lastname,
+      values.telnum,
+      values.agree,
+      values.email,
+      values.message
+    );
   }
   render() {
     return (
@@ -60,7 +69,7 @@ export default class Contact extends Component {
                 className="btn btn-success"
                 href="mailto:confusion@food.net"
               >
-                <i className="fa fa-envelope-o"></i> Email
+                <i className="fa fa-envelope-o"></i> email
               </a>
             </div>
           </div>
@@ -71,19 +80,20 @@ export default class Contact extends Component {
           </div>
           <div className="col-12 col-md-9">
             <Form
-              model=".feedback"
+              id="feedback"
+              model="feedback"
               onSubmit={(values) => this.handleSubmit(values)}
             >
               <Row className="form-group">
-                <Label for="firstName" md={2}>
+                <Label for="firstname" md={2}>
                   First Name <span className="text-danger">*</span>
                 </Label>
                 <Col md={10}>
                   <Control.text
-                    model=".firstName"
+                    model=".firstname"
                     className="form-control"
-                    id="firstName"
-                    name="firstName"
+                    id="firstname"
+                    name="firstname"
                     placeholder="Type your First Name"
                     validators={{
                       required,
@@ -92,7 +102,7 @@ export default class Contact extends Component {
                     }}
                   ></Control.text>
                   <Errors
-                    model=".firstName"
+                    model=".firstname"
                     show="touched"
                     className="text-danger"
                     messages={{
@@ -109,10 +119,10 @@ export default class Contact extends Component {
                 </Label>
                 <Col md={10}>
                   <Control.text
-                    model=".lastName"
+                    model=".lastname"
                     className="form-control"
-                    id="lastName"
-                    name="lastName"
+                    id="lastname"
+                    name="lastname"
                     placeholder="Type your Last Name"
                     validators={{
                       required,
@@ -121,7 +131,7 @@ export default class Contact extends Component {
                     }}
                   ></Control.text>{" "}
                   <Errors
-                    model=".lastName"
+                    model=".lastname"
                     show="touched"
                     className="text-danger"
                     messages={{
@@ -133,15 +143,15 @@ export default class Contact extends Component {
                 </Col>
               </Row>
               <Row className="form-group">
-                <Label for="telNum" md={2}>
+                <Label for="telnum" md={2}>
                   Tel. Number<span className="text-danger">*</span>
                 </Label>
                 <Col md={10}>
                   <Control.text
-                    model=".telNum"
+                    model=".telnum"
                     className="form-control"
-                    id="telNum"
-                    name="telNum"
+                    id="telnum"
+                    name="telnum"
                     placeholder="Type your Tel."
                     validators={{
                       required,
@@ -151,7 +161,7 @@ export default class Contact extends Component {
                     }}
                   ></Control.text>{" "}
                   <Errors
-                    model=".telNum"
+                    model=".telnum"
                     show="touched"
                     className="text-danger"
                     messages={{
@@ -165,7 +175,7 @@ export default class Contact extends Component {
               </Row>
               <Row className="form-group">
                 <Label for="telnum" md={2}>
-                  Email<span className="text-danger">*</span>
+                  email<span className="text-danger">*</span>
                 </Label>
                 <Col md={10}>
                   <Control.text
@@ -175,11 +185,11 @@ export default class Contact extends Component {
                     name="email"
                     validators={{
                       required,
-                      validEmail,
+                      validemail,
                       minLength: minLength(3),
                       maxLength: maxLength(15),
                     }}
-                    placeholder="What is your Email"
+                    placeholder="What is your email"
                   ></Control.text>{" "}
                   <Errors
                     model=".email"
@@ -187,7 +197,7 @@ export default class Contact extends Component {
                     className="text-danger"
                     messages={{
                       required: required,
-                      validEmail: "Invaild email ex@ex.ex",
+                      validemail: "Invaild email ex@ex.ex",
                       minLength: "Must be greater 2 characters ",
                       maxLength: "Must less than 15 characters ",
                     }}
@@ -196,9 +206,10 @@ export default class Contact extends Component {
               </Row>
               <Row className="form-group">
                 <Col md={{ size: 6, offset: 2 }}>
-                  <div className="form-cheak">
+                  <div className="form-check">
                     <Label check>
                       <Control.checkbox
+                        className="form-check-input"
                         model=".agree"
                         name="agree"
                       ></Control.checkbox>{" "}
@@ -210,16 +221,16 @@ export default class Contact extends Component {
                 </Col>
                 <Col md={{ size: 3, offset: 1 }}>
                   <Control.select
-                    model="contactType"
+                    model=".contactType"
                     className="form-control"
                     name="contactType"
                   >
                     <option>Tel.</option>
-                    <option>Email</option>
+                    <option>email</option>
                   </Control.select>
                 </Col>
               </Row>
-              <FormGroup row>
+              <Row className="form-group">
                 <Label htmlFor="feedback" md={2}>
                   Your feedback
                 </Label>
@@ -233,14 +244,14 @@ export default class Contact extends Component {
                     rows="12"
                   ></Control.textarea>
                 </Col>
-              </FormGroup>
-              <FormGroup row>
+              </Row>
+              <Row className="form-group">
                 <Col md={{ size: 10, offset: 2 }}>
                   <Button type="submit" color="primary">
                     Send Feedback
                   </Button>
                 </Col>
-              </FormGroup>
+              </Row>
             </Form>
           </div>
         </div>
