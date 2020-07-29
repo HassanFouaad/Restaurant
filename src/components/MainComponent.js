@@ -6,7 +6,7 @@ import DishDetail from "./DishDetailComponent";
 import Contact from "./ContactComponent";
 import About from "./AboutComponent";
 import {
-  addComment,
+  postComment,
   fetchDishes,
   fetchComments,
   fetchPromos,
@@ -25,8 +25,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addComment: (dishId, rating, author, comment) =>
-    dispatch(addComment(dishId, rating, author, comment)),
+  postComment: (dishId, rating, author, comment) =>
+    dispatch(postComment(dishId, rating, author, comment)),
   fetchDishes: () => dispatch(fetchDishes()),
   fetchComments: () => dispatch(fetchComments()),
   fetchPromos: () => dispatch(fetchPromos()),
@@ -68,11 +68,12 @@ class Main extends Component {
             )[0]
           }
           isLoading={this.props.dishes.isLoading}
-          commentserrMess={this.props.dishes.errMess}
+          errMess={this.props.dishes.errMess}
           comments={this.props.comments.comments.filter(
             (comment) => comment.dishId === parseInt(match.params.dishId, 10)
           )}
-          addComment={this.props.addComment}
+          commentsErrMess={this.props.comments.errMess}
+          postComment={this.props.postComment}
         />
       );
     };
