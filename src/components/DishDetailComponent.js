@@ -12,9 +12,11 @@ import {
   ModalBody,
   Label,
 } from "reactstrap";
+import { baseURL } from "../shared/baseURL";
 import { Control, LocalForm, Errors } from "react-redux-form";
-
+import { Loading } from "./LoadingComponent";
 import { Link } from "react-router-dom";
+import { addComment } from "../redux/ActionCreators";
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
 const minLength = (len) => (val) => val && val.length >= len;
@@ -36,8 +38,12 @@ class CommentForm extends Component {
 
   handleSubmit(values) {
     this.toggleForm();
-    alert("COMMENT STATE IS" + JSON.stringify(values));
-    console.log(values);
+    this.props.addComment(
+      this.props.dishId,
+      values.rating,
+      values.author,
+      values.comment
+    );
   }
 
   render() {
@@ -63,6 +69,7 @@ class CommentForm extends Component {
                   model=".rating"
                   className="form-control"
                   name="rating"
+                  id="rating"
                 >
                   <option>1</option>
                   <option>2</option>
@@ -73,11 +80,12 @@ class CommentForm extends Component {
               </div>
 
               <div className="form-group">
-                <Label for="clientname">Your Name</Label>
+                <Label for="author">Your Name</Label>
                 <Control.text
-                  model=".clientname"
+                  model=".author"
                   className="form-control"
-                  name="clientname"
+                  name="author"
+                  id="author"
                   validators={{
                     required,
                     minLength: minLength(3),
@@ -85,7 +93,7 @@ class CommentForm extends Component {
                   }}
                 ></Control.text>
                 <Errors
-                  model=".clientname"
+                  model=".author"
                   show="touched"
                   className="text-danger"
                   messages={{
@@ -96,12 +104,13 @@ class CommentForm extends Component {
                 ></Errors>
               </div>
               <div className="form-group">
-                <Label for="commenttext">Comment</Label>
+                <Label for="comment">Comment</Label>
                 <Control.textarea
-                  model=".commenttext"
+                  model=".comment"
                   className="form-control"
-                  name="commenttext"
+                  name="comment"
                   rows="8"
+                  id="comment"
                 ></Control.textarea>
               </div>
               <Button type="submit" color="primary">
@@ -118,7 +127,11 @@ class CommentForm extends Component {
 function RenderDish(dish) {
   return (
     <Card>
-      <CardImg src={dish.image} width="100%" alt={dish.image} />
+      <CardImg
+        src={baseURL + dish.image}
+        width="100%"
+        alt={baseURL + dish.image}
+      />
       <CardTitle className="ml-4 mt-4">
         <h4>{dish.name}</h4>
       </CardTitle>
@@ -126,7 +139,7 @@ function RenderDish(dish) {
     </Card>
   );
 }
-function RenderComments(comments) {
+function RenderComments(comments, addComment, dishId) {
   if (comments == null) {
     return <div></div>;
   }
@@ -158,9 +171,27 @@ function RenderComments(comments) {
 }
 
 const DishDetail = (props) => {
+  if (props.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading></Loading>
+        </div>
+      </div>
+    );
+  } else if (props.errMess) {
+    return (
+      <div className="container">
+        <div className="row">
+          <h4>Failed!</h4>
+        </div>
+      </div>
+    );
+  }
   var dish = props.selected;
   var comments = props.comments;
-
+  var addComment = props.addComment;
+  var dishId = dish.id;
   return (
     <div className="container">
       <div className="row">
@@ -182,8 +213,8 @@ const DishDetail = (props) => {
       <div className="row">
         <div className="col-12 col-md-5 m-1">{RenderDish(dish)}</div>
         <div className="col-12 col-md-5 m-1">
-          {RenderComments(comments)}
-          <CommentForm></CommentForm>
+          {RenderComments(comments, addComment, dishId)}
+          <CommentForm dishId={dishId} addComment={addComment}></CommentForm>
         </div>
       </div>
     </div>

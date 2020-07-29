@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, FormGroup, Label, Col, Row } from "reactstrap";
-import { Control, LocalForm, Errors } from "react-redux-form";
+import { Control, Form, Errors, actions } from "react-redux-form";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -14,6 +14,7 @@ export default class Contact extends Component {
   }
   handleSubmit(values) {
     console.log(values);
+    this.props.resetFeedbackForm();
   }
   render() {
     return (
@@ -69,7 +70,10 @@ export default class Contact extends Component {
             <h3>Send us your feedback</h3>
           </div>
           <div className="col-12 col-md-9">
-            <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+            <Form
+              model=".feedback"
+              onSubmit={(values) => this.handleSubmit(values)}
+            >
               <Row className="form-group">
                 <Label for="firstName" md={2}>
                   First Name <span className="text-danger">*</span>
@@ -237,7 +241,7 @@ export default class Contact extends Component {
                   </Button>
                 </Col>
               </FormGroup>
-            </LocalForm>
+            </Form>
           </div>
         </div>
       </div>
