@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Footer(props) {
   return (
@@ -9,39 +10,41 @@ function Footer(props) {
             <h5>Links</h5>
             <ul className="list-unstyled">
               <li>
-                <a href="!#">Home</a>
+                <Link to="/home" style={{ color: "white" }}>Home</Link>
               </li>
               <li>
-                <a href="!#">About</a>
+                <Link to="/aboutus" style={{ color: "white" }}>About Us</Link>
               </li>
               <li>
-                <a href="!#">Menu</a>
+                <Link to="/menu" style={{ color: "white" }}>Menu</Link>
               </li>
               <li>
-                <a href="contactus.html">Contact</a>
+                <Link to="/contactus" style={{ color: "white" }}>Contact Us</Link>
               </li>
             </ul>
           </div>
           <div className="col-7 col-sm-5">
             <h5>Our Address</h5>
-            <address>
-              121, Clear Water Bay Road
+            <address style={{ color: "white" }}>
+              8 Mohammed Fadil St
               <br />
-              Clear Water Bay, Kowloon
+              Pyramids Rd, Giza
               <br />
-              HONG KONG
+              EGYPT
               <br />
-              <i className="fa fa-phone fa-lg"></i>: +852 1234 5678
+              <i className="fa fa-phone fa-lg"></i>: +07775555
               <br />
-              <i className="fa fa-fax fa-lg"></i>: +852 8765 4321
+              <i className="fa fa-fax fa-lg"></i>: +07775555
               <br />
               <i className="fa fa-envelope fa-lg"></i>:{" "}
-              <a href="mailto:confusion@food.net">confusion@food.net</a>
+              <a style={{ color: "white" }} href="mailto:confusion@food.net">
+                ITALIANO@ITALIANO.net
+              </a>
             </address>
           </div>
           <div className="col-12 col-sm-4 align-self-center">
             <div className="text-center">
-              <a
+              <a 
                 className="btn btn-social-icon btn-google"
                 href="http://google.com/+"
               >
@@ -79,7 +82,7 @@ function Footer(props) {
         </div>
         <div className="row justify-content-center">
           <div className="col-auto">
-            <p>© Copyright 2018 Ristorante Con Fusion</p>
+            <p>© Copyright 2020 Italiano Egypt</p>
           </div>
         </div>
       </div>

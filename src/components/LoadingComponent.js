@@ -1,9 +1,10 @@
-import React from "react";
-import Loader from "react-loader-spinner";
+import React from 'react';
+
 export const Loading = () => {
-  return (
-    <div>
-      <Loader type="Oval" color="#512DA8" height={150} width={150} />
-    </div>
-  );
+    return(
+        <div className="col-12">
+            <span className="fa fa-spinner fa-pulse fa-3x fa-fw text-primary"></span>
+            <p>Loading . . .</p>
+        </div>
+    );
 };

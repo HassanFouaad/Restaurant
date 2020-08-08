@@ -1,3 +1,9 @@
+@import url(https://www.fontstatic.com/f=cairo-bold);
+#homejumbo {
+  background-image: url(https://www.popsci.com/resizer/6YSk-c9ZeD6iDgNv5FBoMA_hkhU=/1293x862/arc-anglerfish-arc2-prod-bonnier.s3.amazonaws.com/public/EH4FFNMQAFBPVD2SSPUYFNXL5I.jpg);
+  min-height: 100vh;
+  background-size: cover;
+}
 .row-header {
   margin: 0px auto;
   padding: 0px auto;
@@ -9,11 +15,14 @@
   border-bottom: 1px ridge;
   min-height: 400px;
 }
-
+#headerofleader {
+  background-color: #490c04;
+}
 .footer {
-  background-color: #d1c4e9;
+  background-color: #490c04;
   margin: 0px auto;
   padding: 20px 0px 20px 0px;
+  color: white;
 }
 .jumbotron {
   padding: 70px 30px 70px 30px;
@@ -29,24 +38,47 @@ address {
 }
 
 .navbar-dark {
-  background-color: #512da8;
+  background-color: #490c04;
 }
 
 .page-enter {
   opacity: 0.01;
   transform: translateX(-100%);
 }
+
 .page-enter-active {
   opacity: 1;
   transform: translateX(0%);
   transition: all 300ms ease-in;
 }
+
 .page-exit {
   opacity: 1;
   transform: translateX(0%);
 }
+
 .page-exit-active {
   opacity: 0.01;
   transform: translateX(100%);
   transition: all 300ms ease-out;
+}
+
+#eshta2 {
+  text-shadow: 5px 5px #550d04;
+  font-size: 100px;
+  font-family: "cairo-bold";
+}
+#eshta {
+  text-shadow: 5px 5px #550d04;
+  font-size: 50px;
+  font-family: "cairo-bold";
+}
+@media screen and (max-width: 700px) {
+  #eshta2 {
+    font-size: 50px;
+  }
+  #eshta {
+    font-size: 20px;
+    text-shadow: 1px 1px #550d04;
+  }
 }

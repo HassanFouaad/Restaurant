@@ -8,37 +8,59 @@ import {
   Media,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import { baseURL } from "../shared/baseURL";
-import { Fade, Stagger, FadeTransform } from "react-animation-components";
+import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
+import { Fade, Stagger } from "react-animation-components";
+
 function RenderLeader({ leader }) {
   return (
-    <Media className="mb-5">
+    <Media tag="li">
       <Media left middle>
-        <Media object src={baseURL + leader.image}></Media>
+        <Media
+          style={{ maxHeight: "200px", minHeight: "200px" }}
+          object
+          src={baseUrl + leader.image}
+          alt={leader.name}
+        />
       </Media>
       <Media body className="ml-5">
-        <Media heading style={{ color: "#512DA8" }}>
-          {leader.name}
-        </Media>
-        <Media className="mb-4" style={{ color: "#9575CD" }}>
-          {leader.designation}
-        </Media>
+        <Media heading>{leader.name}</Media>
+        <p>{leader.designation}</p>
         <p>{leader.description}</p>
       </Media>
     </Media>
   );
 }
-function About(props) {
-  const leaders = props.leaders.map((leader) => {
+
+function LeaderList(props) {
+  const leaders = props.leaders.leaders.map((leader) => {
     return (
-      <Fade in>
-        <li>
-          <RenderLeader leader={leader} key={leader}></RenderLeader>
-        </li>
+      <Fade in key={leader._id}>
+        <div className="col-12 mt-2">
+          <RenderLeader leader={leader} />
+        </div>
       </Fade>
     );
   });
 
+  if (props.leaders.isLoading) {
+    return <Loading />;
+  } else if (props.leaders.errMess) {
+    return (
+      <div className="col-12">
+        <h4>{props.leaders.errMess}</h4>
+      </div>
+    );
+  } else {
+    return (
+      <Media list>
+        <Stagger in>{leaders}</Stagger>
+      </Media>
+    );
+  }
+}
+
+function About(props) {
   return (
     <div className="container">
       <div className="row">
@@ -57,12 +79,12 @@ function About(props) {
         <div className="col-12 col-md-6">
           <h2>Our History</h2>
           <p>
-            Started in 2010, Ristorante con Fusion quickly established itself as
-            a culinary icon par excellence in Hong Kong. With its unique brand
-            of world fusion cuisine that can be found nowhere else, it enjoys
-            patronage from the A-list clientele in Hong Kong. Featuring four of
-            the best three-star Michelin chefs in the world, you never know what
-            will arrive on your plate the next time you visit us.
+            Started in 2018, Italiano quickly established itself as a culinary
+            icon par excellence in Egypt. With its unique brand of world fusion
+            cuisine that can be found nowhere else, it enjoys patronage from the
+            A-list clientele in Egypt. Featuring four of the best three-star
+            Michelin chefs in the world, you never know what will arrive on your
+            plate the next time you visit us.
           </p>
           <p>
             The restaurant traces its humble beginnings to{" "}
@@ -73,19 +95,18 @@ function About(props) {
         </div>
         <div className="col-12 col-md-5">
           <Card>
-            <CardHeader className="bg-primary text-white">
+            <CardHeader id="headerofleader" className="text-white">
               Facts At a Glance
             </CardHeader>
             <CardBody>
               <dl className="row p-1">
                 <dt className="col-6">Started</dt>
-                <dd className="col-6">3 Feb. 2013</dd>
+                <dd className="col-6">20 Feb 2018</dd>
                 <dt className="col-6">Major Stake Holder</dt>
-                <dd className="col-6">HK Fine Foods Inc.</dd>
-                <dt className="col-6">Last Year's Turnover</dt>
-                <dd className="col-6">$1,250,375</dd>
+                <dd className="col-6">EG Fine Foods Inc.</dd>
+
                 <dt className="col-6">Employees</dt>
-                <dd className="col-6">40</dd>
+                <dd className="col-6">41</dd>
               </dl>
             </CardBody>
           </Card>
@@ -114,11 +135,7 @@ function About(props) {
         <div className="col-12">
           <h2>Corporate Leadership</h2>
         </div>
-        <div className="col-12 mt-5">
-          <ul className="list-unstyled">
-            <Stagger in>{leaders}</Stagger>
-          </ul>
-        </div>
+        <LeaderList leaders={props.leaders} />
       </div>
     </div>
   );
